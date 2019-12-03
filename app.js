@@ -26,17 +26,17 @@ app.get('/apps', (req, res)=> {
   }
 
   if (genre) {
-    if(!['Genres'].includes(genre)) {
+    if(!['Action', 'Puzzle', 'Strategy', 'Casual', 'Arcade', 'Card'].includes(genre)) {
       return res
         .status(400)
         .send('Please select an extant genre');
     }
   }
 
-  let genres = apps.filter(app => app.Genres.toLowerCase().includes(search.toLowerCase()));
+  results = results.filter(app => app.Genres.toLowerCase().includes(genre.toLowerCase()));
 
   if (genre) {
-    genres.sort((a,b) => {
+    results.sort((a,b) => {
       return a[sort] > b[sort] ? 1: a[sort] < b[sort] ? -1 : 0;
     });
   }
