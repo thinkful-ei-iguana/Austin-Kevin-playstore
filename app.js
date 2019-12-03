@@ -1,16 +1,18 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors')
 
 const app = express();
 app.use(morgan('common'));
+app.use(cors())
 
 const apps = require('./app-data.js');
 
 app.get('/apps', (req, res)=> {
-  const { search = '', sort, genre } = req.query;
+  const { search = '', sort, genre = '' } = req.query;
 
   if (sort) {
-    if(!['App', 'Rating'].includes(sort)) {
+    if(!['App', 'Rating', 'Genre'].includes(sort)) {
       return res
         .status(400)
         .send('Sort must be one of title or rank');
@@ -32,7 +34,7 @@ app.get('/apps', (req, res)=> {
         .send('Please select an extant genre');
     }
   }
-
+  console.log(results)
   results = results.filter(app => app.Genres.toLowerCase().includes(genre.toLowerCase()));
 
   if (genre) {
